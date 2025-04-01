@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useSdk from "@inscrib3/react";
 import gif from './assets/gif.gif';
 
@@ -6,19 +6,6 @@ const App = () => {
   const sdk = useSdk();
 
   const [mintRes, setMintRes] = useState<{ txid: string }>();
-  const [allRes, setAllRes] = useState<{
-    id: string;
-    name: string;
-    symbol: string;
-    description: string;
-    icon: string;
-    price: string;
-    recipientAddress: string;
-    recipientPublicKey: string;
-    supply: string;
-    minting: string;
-    minted: string;
-  }[]>();
 
 
   return (
