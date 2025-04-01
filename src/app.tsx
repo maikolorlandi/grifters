@@ -5,16 +5,6 @@ import gif from './assets/gif.gif';
 const App = () => {
   const sdk = useSdk();
 
-  const [tempDrop, setTempDrop] = useState<{
-    id?: string;
-    name?: string;
-    symbol?: string;
-    description?: string;
-    price?: string;
-    files?: string[];
-  } | null>(null);
-
-
   const [mintRes, setMintRes] = useState<{ txid: string }>();
   const [allRes, setAllRes] = useState<{
     id: string;
@@ -29,29 +19,7 @@ const App = () => {
     minting: string;
     minted: string;
   }[]>();
-  
-  // Fetch drops data only when wallet is connected
-  useEffect(() => {
-    const fetchDropData = async () => {
-      // Solo se il wallet è connesso
-      if (sdk.wallet.paymentAddress && sdk.wallet.recipientAddress) {
-        try {
-          // Ottieni informazioni sul drop specifico
-          const drop = await sdk.drops.read('67ea65c49c6f49413f06d21b');
-          
-          // Salva come array per mantenere la compatibilità con il resto del codice
-          setAllRes([drop]);
-          console.log("Drop fetched:", drop);
-        } catch (error) {
-          console.error("Error fetching drop:", error);
-        }
-      }
-    };
-    
-    // Esegui la funzione quando cambia lo stato del wallet
-    fetchDropData();
-    
-  }, [sdk.wallet.recipientAddress, sdk.wallet.paymentAddress]);
+
 
   return (
     <div className="min-h-screen bg-black">
@@ -83,17 +51,6 @@ const App = () => {
               NO RIGHTS RESERVED, XCOPY works are licensed <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="blank">CC0</a>.
               </h5>
               
-              {/* Show drop information if available */}
-              {!!allRes && allRes.length > 0 && (
-                <div className="mb-4">
-                  <p className="text-white">
-                    <span className="font-semibold text-orange">Minted:</span> {allRes[0].minted}/666
-                  </p>
-                  <p className="text-white">
-                    <span className="font-semibold">Minting:</span> {allRes[0].minting}
-                  </p>
-                </div>
-              )}
               
               {!!mintRes && (
                 <div className="mockup-code w-full mb-6">
