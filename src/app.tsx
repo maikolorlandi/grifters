@@ -53,11 +53,11 @@ const App = () => {
         </div>
       </nav>
 
-      {/* Box informativo giallo */}
+      {/* Stringa informativa gialla */}
       <div className="container mx-auto mt-4 px-6">
-        <div className="bg-yellow-500 bg-opacity-70 text-black p-4 rounded-lg font-medium text-center">
-          Minting is only possible with "tb1..." wallet addresses
-        </div>
+        <p className="text-yellow-500 font-medium text-center">
+          Minting is only possible with "bc1..." wallet addresses
+        </p>
       </div>
 
       <section className="container mx-auto my-12 px-6">
