@@ -3,7 +3,7 @@ import useSdk from "@inscrib3/react";
 import gif from './assets/gif.gif';
 
 const App = () => {
-  const sdk = useSdk('signet');
+  const sdk = useSdk();
 
   const [mintRes, setMintRes] = useState<{ txid: string }>();
   const [dropInfo, setDropInfo] = useState<{
@@ -25,7 +25,7 @@ const App = () => {
       if (sdk.wallet.paymentAddress && sdk.wallet.recipientAddress) {
         try {
           // Carica informazioni dal drop specifico
-          const drop = await sdk.drops.read('67ed49c75f5fdede4200cd76');
+          const drop = await sdk.drops.read('67ea65c49c6f49413f06d21b');
           setDropInfo(drop);
           console.log("Drop info:", drop);
         } catch (error) {
@@ -52,6 +52,13 @@ const App = () => {
           </ul>
         </div>
       </nav>
+
+      {/* Box informativo giallo */}
+      <div className="container mx-auto mt-4 px-6">
+        <div className="bg-yellow-500 bg-opacity-70 text-black p-4 rounded-lg font-medium text-center">
+          Minting is only possible with "tb1..." wallet addresses
+        </div>
+      </div>
 
       <section className="container mx-auto my-12 px-6">
         <div className="grid grid-cols-5 gap-6">
@@ -129,11 +136,11 @@ const App = () => {
                   onClick={async () => {
                     try {
                       // Esegui il mint
-                      const result = await sdk.drops.mint('67ed49c75f5fdede4200cd76');
+                      const result = await sdk.drops.mint('67ea65c49c6f49413f06d21b');
                       setMintRes(result);
                       
                       // Dopo il mint, aggiorna le informazioni del drop
-                      const updatedDrop = await sdk.drops.read('67ed49c75f5fdede4200cd76');
+                      const updatedDrop = await sdk.drops.read('67ea65c49c6f49413f06d21b');
                       setDropInfo(updatedDrop);
                       console.log("Drop info updated after mint:", updatedDrop);
                     } catch (error) {
