@@ -120,8 +120,12 @@ const App = () => {
               )}
               <div className="w-full mt-auto">
                 <button 
-                  disabled={!sdk.wallet.paymentAddress || !sdk.wallet.recipientAddress} 
-                  className="btn w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors" 
+                  disabled={
+                    !sdk.wallet.paymentAddress || 
+                    !sdk.wallet.recipientAddress || 
+                    (dropInfo && (parseInt(dropInfo.minted) + parseInt(dropInfo.minting) >= parseInt(dropInfo.supply)))
+                  } 
+                  className="btn w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
                   onClick={async () => {
                     try {
                       // Esegui il mint
@@ -137,7 +141,9 @@ const App = () => {
                     }
                   }}
                 >
-                  Mint your Grifter
+                  {dropInfo && (parseInt(dropInfo.minted) + parseInt(dropInfo.minting) >= parseInt(dropInfo.supply)) 
+                    ? "Sold Out" 
+                    : "Mint your Grifter"}
                 </button>
               </div>
             </div>
