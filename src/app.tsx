@@ -19,26 +19,22 @@ const App = () => {
     minted: string;
   }>();
 
-  // Recupera le informazioni sul drop quando il wallet è connesso
+  // Recupera le informazioni sul drop all'apertura della pagina
   useEffect(() => {
     const fetchDropInfo = async () => {
-      if (sdk.wallet.paymentAddress && sdk.wallet.recipientAddress) {
-        try {
-          // Carica informazioni dal drop specifico
-          const drop = await sdk.drops.read('67ed49c75f5fdede4200cd76');
-          setDropInfo(drop);
-          console.log("Drop info:", drop);
-        } catch (error) {
-          console.error("Error fetching drop info:", error);
-        }
+      try {
+        // Carica informazioni dal drop specifico
+        const drop = await sdk.drops.read('67ed49c75f5fdede4200cd76');
+        setDropInfo(drop);
+        console.log("Drop info:", drop);
+      } catch (error) {
+        console.error("Error fetching drop info:", error);
       }
     };
 
-    // Esegue la query solo quando il wallet è connesso
-    if (sdk.wallet.recipientAddress) {
-      fetchDropInfo();
-    }
-  }, [sdk.wallet.recipientAddress, sdk.wallet.paymentAddress]);
+    // Esegue la query immediatamente all'apertura della pagina
+    fetchDropInfo();
+  }, []);
 
   return (
     <div className="min-h-screen bg-black">
@@ -70,8 +66,8 @@ const App = () => {
               NO RIGHTS RESERVED, XCOPY works are licensed <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="blank" className="text-orange-500 hover:underline">CC0</a>.
               </h5>
               
-              {/* Visualizza informazioni sugli NFT solo se il wallet è connesso e le informazioni sono disponibili */}
-              {sdk.wallet.recipientAddress && dropInfo && (
+              {/* Visualizza informazioni sugli NFT se le informazioni sono disponibili */}
+              {dropInfo && (
                 <div className="bg-gray-900 rounded-lg p-4 mb-6">
                   <h4 className="text-white font-bold mb-2">Drop Status</h4>
                   <div className="grid grid-cols-2 gap-2">
