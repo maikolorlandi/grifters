@@ -101,22 +101,6 @@ const App = () => {
                       </p>
                     </div>
                   </div>
-                  
-                  {/* Progress bar */}
-                  <div className="mt-4">
-                    <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden">
-                      <div 
-                        className="bg-orange-500 h-2" 
-                        style={{ 
-                          width: `${(parseInt(dropInfo.minted) / parseInt(dropInfo.supply)) * 100}%` 
-                        }}
-                      ></div>
-                    </div>
-                    <div className="flex justify-between mt-1">
-                      <span className="text-xs text-gray-400">0</span>
-                      <span className="text-xs text-gray-400">{dropInfo.supply}</span>
-                    </div>
-                  </div>
                 </div>
               )}
               
