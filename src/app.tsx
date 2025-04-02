@@ -120,11 +120,30 @@ const App = () => {
               )}
               <div className="w-full mt-auto">
                 <button 
-                  disabled={!sdk.wallet.paymentAddress || !sdk.wallet.recipientAddress} 
-                  className="btn w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors" 
-                  onClick={async () => setMintRes(await sdk.drops.mint('67ed49c75f5fdede4200cd76'))}
+                  disabled={
+                    !sdk.wallet.paymentAddress || 
+                    !sdk.wallet.recipientAddress || 
+                    (dropInfo && (parseInt(dropInfo.minted) + parseInt(dropInfo.minting) >= parseInt(dropInfo.supply)))
+                  } 
+                  className="btn w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
+                  onClick={async () => {
+                    try {
+                      // Esegui il mint
+                      const result = await sdk.drops.mint('67ed49c75f5fdede4200cd76');
+                      setMintRes(result);
+                      
+                      // Dopo il mint, aggiorna le informazioni del drop
+                      const updatedDrop = await sdk.drops.read('67ed49c75f5fdede4200cd76');
+                      setDropInfo(updatedDrop);
+                      console.log("Drop info updated after mint:", updatedDrop);
+                    } catch (error) {
+                      console.error("Error during mint or update:", error);
+                    }
+                  }}
                 >
-                  Mint your Grifter
+                  {dropInfo && (parseInt(dropInfo.minted) + parseInt(dropInfo.minting) >= parseInt(dropInfo.supply)) 
+                    ? "Sold Out" 
+                    : "Mint your Grifter"}
                 </button>
               </div>
             </div>
