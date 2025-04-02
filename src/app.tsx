@@ -47,7 +47,7 @@ const App = () => {
           <h1 className="text-2xl font-bold text-white">Grifters by Xcopy on BTC</h1>
           <ul className="flex space-x-6">
             <li>
-              <button className="btn bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors" onClick={() => sdk.wallet.connect()}>{sdk.wallet.recipientAddress ? sdk.wallet.recipientAddress : 'Connect Wallet'}</button>
+              <button className="btn bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors" onClick={() => sdk.wallet.connect()}>{sdk.wallet.recipientAddress ? sdk.wallet.recipientAddress : 'Connect Xverse'}</button>
             </li>
           </ul>
         </div>
