@@ -19,22 +19,26 @@ const App = () => {
     minted: string;
   }>();
 
-  // Recupera le informazioni sul drop e riaggiorna dopo la connessione del wallet
+  // Recupera le informazioni sul drop quando il wallet è connesso
   useEffect(() => {
     const fetchDropInfo = async () => {
-      try {
-        // Carica informazioni dal drop specifico
-        const drop = await sdk.drops.read('67ed49c75f5fdede4200cd76');
-        setDropInfo(drop);
-        console.log("Drop info:", drop);
-      } catch (error) {
-        console.error("Error fetching drop info:", error);
+      if (sdk.wallet.paymentAddress && sdk.wallet.recipientAddress) {
+        try {
+          // Carica informazioni dal drop specifico
+          const drop = await sdk.drops.read('67ed49c75f5fdede4200cd76');
+          setDropInfo(drop);
+          console.log("Drop info:", drop);
+        } catch (error) {
+          console.error("Error fetching drop info:", error);
+        }
       }
     };
 
-    // Esegue la query all'apertura della pagina e quando cambia lo stato del wallet
-    fetchDropInfo();
-  }, [sdk.wallet.recipientAddress]); // Richiama quando cambia lo stato della connessione
+    // Esegue la query solo quando il wallet è connesso
+    if (sdk.wallet.recipientAddress) {
+      fetchDropInfo();
+    }
+  }, [sdk.wallet.recipientAddress, sdk.wallet.paymentAddress]);
 
   return (
     <div className="min-h-screen bg-black">
@@ -66,8 +70,8 @@ const App = () => {
               NO RIGHTS RESERVED, XCOPY works are licensed <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="blank" className="text-orange-500 hover:underline">CC0</a>.
               </h5>
               
-              {/* Visualizza informazioni sugli NFT se le informazioni sono disponibili */}
-              {dropInfo && (
+              {/* Visualizza informazioni sugli NFT solo se il wallet è connesso e le informazioni sono disponibili */}
+              {sdk.wallet.recipientAddress && dropInfo && (
                 <div className="bg-gray-900 rounded-lg p-4 mb-6">
                   <h4 className="text-white font-bold mb-2">Drop Status</h4>
                   <div className="grid grid-cols-2 gap-2">
@@ -116,12 +120,8 @@ const App = () => {
               )}
               <div className="w-full mt-auto">
                 <button 
-                  disabled={
-                    !sdk.wallet.paymentAddress || 
-                    !sdk.wallet.recipientAddress || 
-                    (dropInfo && (parseInt(dropInfo.minted) + parseInt(dropInfo.minting) >= parseInt(dropInfo.supply)))
-                  } 
-                  className="btn w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
+                  disabled={!sdk.wallet.paymentAddress || !sdk.wallet.recipientAddress} 
+                  className="btn w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors" 
                   onClick={async () => {
                     try {
                       // Esegui il mint
@@ -137,9 +137,7 @@ const App = () => {
                     }
                   }}
                 >
-                  {dropInfo && (parseInt(dropInfo.minted) + parseInt(dropInfo.minting) >= parseInt(dropInfo.supply)) 
-                    ? "Sold Out" 
-                    : "Mint your Grifter"}
+                  Mint your Grifter
                 </button>
               </div>
             </div>
