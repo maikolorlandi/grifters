@@ -19,7 +19,7 @@ const App = () => {
     minted: string;
   }>();
 
-  // Recupera le informazioni sul drop all'apertura della pagina
+  // Recupera le informazioni sul drop e riaggiorna dopo la connessione del wallet
   useEffect(() => {
     const fetchDropInfo = async () => {
       try {
@@ -32,9 +32,9 @@ const App = () => {
       }
     };
 
-    // Esegue la query immediatamente all'apertura della pagina
+    // Esegue la query all'apertura della pagina e quando cambia lo stato del wallet
     fetchDropInfo();
-  }, []);
+  }, [sdk.wallet.recipientAddress]); // Richiama quando cambia lo stato della connessione
 
   return (
     <div className="min-h-screen bg-black">
