@@ -3,7 +3,7 @@ import useSdk from "@inscrib3/react";
 import gif from './assets/gif.gif';
 
 const App = () => {
-  const sdk = useSdk('signet');
+  const sdk = useSdk();
 
   const [mintRes, setMintRes] = useState<{ txid: string }>();
 
@@ -48,7 +48,7 @@ const App = () => {
                 <button 
                   disabled={!sdk.wallet.paymentAddress || !sdk.wallet.recipientAddress} 
                   className="btn w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg transition-colors" 
-                  onClick={async () => setMintRes(await sdk.drops.mint('67ed49c75f5fdede4200cd76'))}
+                  onClick={async () => setMintRes(await sdk.drops.mint('67ea65c49c6f49413f06d21b'))}
                 >
                   Mint your Grifter
                 </button>
